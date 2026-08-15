@@ -757,8 +757,31 @@ interface Ctx {
 
 const PriveContext = createContext<Ctx | null>(null);
 
+const STORAGE_KEY = "prive-demo-state";
+
 export function PriveProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [hydrated, setHydrated] = useState(false);
+
+  // Demo continuity: keep cross-persona state across reloads and hard navigation.
+  useEffect(() => {
+    try {
+      const raw = window.sessionStorage.getItem(STORAGE_KEY);
+      if (raw) dispatch({ type: "hydrate", state: JSON.parse(raw) as Partial<State> });
+    } catch {
+      /* ignore malformed storage */
+    }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      /* storage unavailable */
+    }
+  }, [state, hydrated]);
   const derived = useMemo(() => derive(state), [state]);
   const value = useMemo(() => ({ state, derived, dispatch }), [state, derived]);
   return <PriveContext.Provider value={value}>{children}</PriveContext.Provider>;
