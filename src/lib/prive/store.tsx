@@ -97,7 +97,9 @@ type Action =
   | { type: "assignGmReview" }
   | { type: "increaseAvocadoOrder" }
   | { type: "verifyW2Address" }
-  | { type: "audit"; event: Omit<AuditEvent, "id" | "at"> };
+  | { type: "audit"; event: Omit<AuditEvent, "id" | "at"> }
+  | { type: "hydrate"; state: Partial<State> }
+  | { type: "resetDemo" };
 
 const now = () =>
   new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
