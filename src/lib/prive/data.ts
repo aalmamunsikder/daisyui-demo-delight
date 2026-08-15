@@ -92,7 +92,7 @@ export interface Complaint {
   summary: string;
   sentiment: "Negative" | "Very Negative" | "Neutral";
   severity: "Low" | "Medium" | "High";
-  status: "Open" | "Awaiting Approval" | "Resolved";
+  status: "Open" | "Awaiting Approval" | "Resolved" | "Escalated" | "Rejected";
   orderRef: string;
   recommendedCredit: number;
   draftResponse: string;
