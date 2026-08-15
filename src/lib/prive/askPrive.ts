@@ -9,7 +9,7 @@ export interface PriveAnswer {
   recommendation?: string;
   confidence?: "High" | "Medium" | "Low";
   sources: string[];
-  action?: string;
+  action?: string | undefined;
 }
 
 const has = (q: string, ...terms: string[]) => terms.some((t) => q.includes(t));
