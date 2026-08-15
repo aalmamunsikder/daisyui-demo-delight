@@ -25,7 +25,7 @@ export function AlertCard({ a, onDismiss }: { a: OpAlert; onDismiss: () => void 
       <div className="flex items-start justify-between gap-2">
         <div>
           <div className="flex items-center gap-2">
-            <Pill tone={alertTone[a.type]}>{a.type}</Pill>
+            <Pill tone={alertTone[a.type] ?? "neutral"}>{a.type}</Pill>
             <span className="text-[11px] text-[#101828]/40">Priority {a.priority}</span>
           </div>
           <div className="mt-1.5 text-sm font-medium">{a.title}</div>
