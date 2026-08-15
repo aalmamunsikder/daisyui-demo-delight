@@ -57,6 +57,7 @@ interface State {
   shiftAccepted: boolean;
   extraStaffApproved: number;
   potatoOrderIncrease: number;
+  transferRequested: boolean;
   certificationCompleted: boolean;
   mayaTrainingComplete: boolean;
   i9Complete: boolean;
@@ -131,6 +132,7 @@ const initialState: State = {
   shiftAccepted: false,
   extraStaffApproved: 0,
   potatoOrderIncrease: 0,
+  transferRequested: false,
   certificationCompleted: false,
   mayaTrainingComplete: false,
   i9Complete: false,
@@ -230,6 +232,7 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         potatoOrderIncrease: state.potatoOrderIncrease + action.lbs,
+        transferRequested: true,
         audit: withLog(state, {
           actor: "Jordan Ellis (GM)",
           agent: "Supply Chain Agent",
