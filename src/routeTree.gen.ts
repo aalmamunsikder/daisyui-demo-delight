@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EmployeeRouteImport } from './routes/employee'
+import { Route as ExecutiveRouteImport } from './routes/executive'
+import { Route as GmRouteImport } from './routes/gm'
+import { Route as GuestRouteImport } from './routes/guest'
+import { Route as IntegrationsRouteImport } from './routes/integrations'
+import { Route as RegionalRouteImport } from './routes/regional'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmployeeRoute = EmployeeRouteImport.update({
+  id: '/employee',
+  path: '/employee',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExecutiveRoute = ExecutiveRouteImport.update({
+  id: '/executive',
+  path: '/executive',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GmRoute = GmRouteImport.update({
+  id: '/gm',
+  path: '/gm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuestRoute = GuestRouteImport.update({
+  id: '/guest',
+  path: '/guest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntegrationsRoute = IntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegionalRoute = RegionalRouteImport.update({
+  id: '/regional',
+  path: '/regional',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/employee': typeof EmployeeRoute
+  '/executive': typeof ExecutiveRoute
+  '/gm': typeof GmRoute
+  '/guest': typeof GuestRoute
+  '/integrations': typeof IntegrationsRoute
+  '/regional': typeof RegionalRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/employee': typeof EmployeeRoute
+  '/executive': typeof ExecutiveRoute
+  '/gm': typeof GmRoute
+  '/guest': typeof GuestRoute
+  '/integrations': typeof IntegrationsRoute
+  '/regional': typeof RegionalRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/employee': typeof EmployeeRoute
+  '/executive': typeof ExecutiveRoute
+  '/gm': typeof GmRoute
+  '/guest': typeof GuestRoute
+  '/integrations': typeof IntegrationsRoute
+  '/regional': typeof RegionalRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/employee'
+    | '/executive'
+    | '/gm'
+    | '/guest'
+    | '/integrations'
+    | '/regional'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/employee'
+    | '/executive'
+    | '/gm'
+    | '/guest'
+    | '/integrations'
+    | '/regional'
+  id:
+    | '__root__'
+    | '/'
+    | '/employee'
+    | '/executive'
+    | '/gm'
+    | '/guest'
+    | '/integrations'
+    | '/regional'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EmployeeRoute: typeof EmployeeRoute
+  ExecutiveRoute: typeof ExecutiveRoute
+  GmRoute: typeof GmRoute
+  GuestRoute: typeof GuestRoute
+  IntegrationsRoute: typeof IntegrationsRoute
+  RegionalRoute: typeof RegionalRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/employee': {
+      id: '/employee'
+      path: '/employee'
+      fullPath: '/employee'
+      preLoaderRoute: typeof EmployeeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/executive': {
+      id: '/executive'
+      path: '/executive'
+      fullPath: '/executive'
+      preLoaderRoute: typeof ExecutiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gm': {
+      id: '/gm'
+      path: '/gm'
+      fullPath: '/gm'
+      preLoaderRoute: typeof GmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guest': {
+      id: '/guest'
+      path: '/guest'
+      fullPath: '/guest'
+      preLoaderRoute: typeof GuestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/integrations': {
+      id: '/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof IntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/regional': {
+      id: '/regional'
+      path: '/regional'
+      fullPath: '/regional'
+      preLoaderRoute: typeof RegionalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EmployeeRoute: EmployeeRoute,
+  ExecutiveRoute: ExecutiveRoute,
+  GmRoute: GmRoute,
+  GuestRoute: GuestRoute,
+  IntegrationsRoute: IntegrationsRoute,
+  RegionalRoute: RegionalRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
