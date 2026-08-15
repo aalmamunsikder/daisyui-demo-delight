@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useReducer, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useReducer, useState, type ReactNode } from "react";
 import {
   CERT_EMPLOYEE,
   GM_RESTAURANT_ID,
@@ -57,6 +57,7 @@ interface State {
   shiftAccepted: boolean;
   extraStaffApproved: number;
   potatoOrderIncrease: number;
+  transferRequested: boolean;
   certificationCompleted: boolean;
   mayaTrainingComplete: boolean;
   i9Complete: boolean;
@@ -97,7 +98,9 @@ type Action =
   | { type: "assignGmReview" }
   | { type: "increaseAvocadoOrder" }
   | { type: "verifyW2Address" }
-  | { type: "audit"; event: Omit<AuditEvent, "id" | "at"> };
+  | { type: "audit"; event: Omit<AuditEvent, "id" | "at"> }
+  | { type: "hydrate"; state: Partial<State> }
+  | { type: "resetDemo" };
 
 const now = () =>
   new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
@@ -105,7 +108,7 @@ const now = () =>
 let auditSeq = 100;
 const logEvent = (e: Omit<AuditEvent, "id" | "at">): AuditEvent => ({
   ...e,
-  id: `au${++auditSeq}`,
+  id: `au${Date.now().toString(36)}-${++auditSeq}`,
   at: now(),
 });
 
@@ -129,6 +132,7 @@ const initialState: State = {
   shiftAccepted: false,
   extraStaffApproved: 0,
   potatoOrderIncrease: 0,
+  transferRequested: false,
   certificationCompleted: false,
   mayaTrainingComplete: false,
   i9Complete: false,
@@ -228,6 +232,7 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         potatoOrderIncrease: state.potatoOrderIncrease + action.lbs,
+        transferRequested: true,
         audit: withLog(state, {
           actor: "Jordan Ellis (GM)",
           agent: "Supply Chain Agent",
@@ -430,6 +435,10 @@ function reducer(state: State, action: Action): State {
       };
     case "audit":
       return { ...state, audit: withLog(state, action.event) };
+    case "hydrate":
+      return { ...state, ...action.state };
+    case "resetDemo":
+      return { ...initialState, persona: state.persona };
     default:
       return state;
   }
@@ -757,8 +766,31 @@ interface Ctx {
 
 const PriveContext = createContext<Ctx | null>(null);
 
+const STORAGE_KEY = "prive-demo-state";
+
 export function PriveProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [hydrated, setHydrated] = useState(false);
+
+  // Demo continuity: keep cross-persona state across reloads and hard navigation.
+  useEffect(() => {
+    try {
+      const raw = window.sessionStorage.getItem(STORAGE_KEY);
+      if (raw) dispatch({ type: "hydrate", state: JSON.parse(raw) as Partial<State> });
+    } catch {
+      /* ignore malformed storage */
+    }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      /* storage unavailable */
+    }
+  }, [state, hydrated]);
   const derived = useMemo(() => derive(state), [state]);
   const value = useMemo(() => ({ state, derived, dispatch }), [state, derived]);
   return <PriveContext.Provider value={value}>{children}</PriveContext.Provider>;

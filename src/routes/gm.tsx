@@ -133,9 +133,9 @@ function GmPage() {
               <Button
                 variant="ghost"
                 onClick={() => dispatch({ type: "transferInventory", lbs: 40 })}
-                disabled={d.potato.shortage === 0}
+                disabled={state.transferRequested}
               >
-                Transfer 40 lbs from Charlotte #01
+                {state.transferRequested ? "Transfer requested" : "Transfer 40 lbs from Charlotte #01"}
               </Button>
             </div>
           </Card>
