@@ -432,6 +432,10 @@ function reducer(state: State, action: Action): State {
       };
     case "audit":
       return { ...state, audit: withLog(state, action.event) };
+    case "hydrate":
+      return { ...state, ...action.state };
+    case "resetDemo":
+      return { ...initialState, persona: state.persona };
     default:
       return state;
   }
