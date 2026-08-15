@@ -64,7 +64,7 @@ export function PriveShell({
   children: ReactNode;
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { derived: d } = usePrive();
+  const { derived: d, dispatch } = usePrive();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const active = WORKSPACES.find((p) => p.id === persona);
