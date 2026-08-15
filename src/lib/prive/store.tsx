@@ -107,7 +107,7 @@ const now = () =>
 let auditSeq = 100;
 const logEvent = (e: Omit<AuditEvent, "id" | "at">): AuditEvent => ({
   ...e,
-  id: `au${++auditSeq}`,
+  id: `au${Date.now().toString(36)}-${++auditSeq}`,
   at: now(),
 });
 
