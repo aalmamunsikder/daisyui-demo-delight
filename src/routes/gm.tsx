@@ -31,7 +31,7 @@ function GmPage() {
             <SectionTitle hint="Tomorrow">Readiness score</SectionTitle>
             <div className="flex items-end gap-3">
               <span className="text-5xl font-semibold tabular-nums">{d.readiness.score}%</span>
-              <Pill tone={d.readiness.score >= 85 ? "teal" : "amber"}>{d.readiness.label}</Pill>
+              <Pill tone={d.readiness.score >= 85 ? "teal" : "amber"}>{d.readiness.score >= 85 ? "Ready" : "Action required"}</Pill>
             </div>
             <div className="mt-3">
               <Meter value={d.readiness.score} tone={d.readiness.score >= 85 ? "teal" : "amber"} />
