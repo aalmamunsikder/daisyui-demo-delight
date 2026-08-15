@@ -126,6 +126,16 @@ export function PriveShell({
         ) : null}
       </nav>
 
+      {!collapsed ? (
+        <button
+          type="button"
+          onClick={() => dispatch({ type: "resetDemo" })}
+          className="rounded-lg border border-white/10 px-2.5 py-2 text-[12px] font-medium text-white/50 hover:bg-white/10 hover:text-white"
+        >
+          Reset demo state
+        </button>
+      ) : null}
+
       <button
         type="button"
         onClick={() => setCollapsed((c) => !c)}
