@@ -33,7 +33,7 @@ function GuestPage() {
         customer: "Priya Raman",
         restaurantId: GM_RESTAURANT_ID,
         date: iso(TODAY),
-        channel: "Voice AI",
+        channel: "Voice",
         type: "Missing item",
         summary: "Two sides of bacon missing from a curbside pickup order placed at 9:42 AM.",
         sentiment: "Negative",
